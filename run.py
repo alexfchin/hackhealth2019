@@ -1,7 +1,6 @@
 # /usr/bin/env python
 # Download the twilio-python library from twilio.com/docs/libraries/python
 from flask import Flask, request, redirect
-from twilio import twiml
 from twilio.twiml.messaging_response import Message, MessagingResponse
 import urllib
 import re
@@ -42,7 +41,7 @@ def sms_ahoy_reply():
     print(translatedText)
 
     #doctor, clinic
-    
+
 
     if 'hello' in translatedText:
         resp.message("You need a doctor")
