@@ -14,19 +14,20 @@ app = Flask(__name__)
 
 # Instantiates a client
 translate_client = translate.Client()
-target = 'en'
 
 
 def detect_language(text):
     result = translate_client.detect_language(text)
     return result['language']
 
-def translate_text(text):
+def translate_text(text,target):
     translation = translate_client.translate(
         text,
         target_language=target)
     translatedText = str(translation['translatedText']).lower()
     return translatedText
+
+def i
 
 @app.route("/", methods=['GET', 'POST'])
 def hello():
@@ -44,25 +45,35 @@ def sms_ahoy_reply():
     text = str(request.values.get('Body', None))
     print(text)
 
+    detected = detect_language(text)
+
     translation = translate_client.translate(
         text,
-        target_language=target)
+        target_language='en')
     translatedText = str(translation['translatedText']).lower()
     # print(u'Text: {}'.format(text))
     # print(u'Translation: {}'.format(translation['translatedText']))
     print(translatedText)
 
     #doctor, clinic
-
+    csv_info = ''
 
     if 'hello' in translatedText:
-        resp.message("You need a doctor")
+
+        csv_info = 'dummy'
+        #resp.message("You need a doctor")
     # Add a message
     else:
-        resp.message("Ahoy! Thanks so much for your message.")
+        csv_info = 'Unrecognized Symptom'
 
+    translation = translate_client.translate(
+        text,
+        target_language=detected)
+
+    translatedText = str(translation['translatedText']).lower()
+
+    resp.message(translatedText)
     return str(resp)
 
 if __name__ == "__main__":
     app.run(debug=True)
-
