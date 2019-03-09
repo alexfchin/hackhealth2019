@@ -16,6 +16,18 @@ app = Flask(__name__)
 translate_client = translate.Client()
 target = 'en'
 
+
+def detect_language(text):
+    result = translate_client.detect_language(text)
+    return result['language']
+
+def translate_text(text):
+    translation = translate_client.translate(
+        text,
+        target_language=target)
+    translatedText = str(translation['translatedText']).lower()
+    return translatedText
+
 @app.route("/", methods=['GET', 'POST'])
 def hello():
     return ("Hey there!")
@@ -29,8 +41,8 @@ def sms_ahoy_reply():
 
 
     resp = MessagingResponse()
-
-    text = str(request.args.get('Body'))
+    text = str(request.values.get('Body', None))
+    print(text)
 
     translation = translate_client.translate(
         text,
