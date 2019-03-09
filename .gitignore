@@ -61,3 +61,6 @@ venv.bak/
 .dmypy.json
 dmypy.json
 
+
+# API keys
+config.py
