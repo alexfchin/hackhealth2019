@@ -5,8 +5,8 @@ Refugee and Migrant Health
   - Hard to find medical provider
     - Map that tells you where they are located
     - Symptom checker API
-      - Google maps API for 'Community health clinics', 'Free medical and dental school clinics', 'Hospital emergency rooms'
-        - https://health.usnews.com/wellness/articles/2016-11-02/where-can-undocumented-immigrants-go-for-health-care
+    - Google maps API for 'Community health clinics', 'Free medical and dental school clinics', 'Hospital emergency rooms'
+      - https://health.usnews.com/wellness/articles/2016-11-02/where-can-undocumented-immigrants-go-for-health-care
 
 Game where user uses headphones to guess range of sound to simulate what blind ppls experience
 
