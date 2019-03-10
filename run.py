@@ -7,6 +7,9 @@ import re
 from google.cloud import translate
 
 
+disease_list = []
+f = ""
+return_list = []
 
 # Translates some text into Russian
 
@@ -26,8 +29,6 @@ def translate_text(text,target):
         target_language=target)
     translatedText = str(translation['translatedText']).lower()
     return translatedText
-
-def i
 
 @app.route("/", methods=['GET', 'POST'])
 def hello():
@@ -58,13 +59,12 @@ def sms_ahoy_reply():
     #doctor, clinic
     csv_info = ''
 
-    if 'hello' in translatedText:
-
-        csv_info = 'dummy'
+    text = str(print_disease_symptoms(translatedText))
         #resp.message("You need a doctor")
     # Add a message
-    else:
-        csv_info = 'Unrecognized Symptom'
+#    else:
+#        csv_info = 'Unrecognized Symptom'
+    print(text)
 
     translation = translate_client.translate(
         text,
@@ -74,6 +74,39 @@ def sms_ahoy_reply():
 
     resp.message(translatedText)
     return str(resp)
+
+counter = 0
+
+def print_disease_symptoms(wanty):
+
+    disease = []
+
+    f = open("sheet.csv", "r")
+    lines = f.readlines()
+    print("file read")
+    #fill in index of disease list an symptom list
+    for i in lines:
+        counter = 0
+        curr_line = i.split(",")
+        bunny = {"name": "","symptoms":[]}
+        # curr_line is an array of words
+        for j in curr_line:
+            if counter == 0: #disease
+                bunny["name"] = j.lower()
+            else: #its a symptom
+                if j != "" and j != "\n":
+                    bunny["symptoms"].append(j.lower())
+            counter += 1
+
+        disease.append(bunny)
+
+    for i in disease:
+        if wanty == i["name"]:
+            help = str(i['symptoms'])
+            help = help.replace("'","")
+            help = help.replace("[","")
+            help = help.replace("]","")
+            return "Here are " + i["name"] + " symptoms: " + help + ". Feel Better! See a doctor when you can!"
 
 if __name__ == "__main__":
     app.run(debug=True)
